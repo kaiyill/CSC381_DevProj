@@ -21,7 +21,7 @@ def read_csv(file_path):
     return data
 
 # Replace 'data.csv' with your CSV file path
-file_path = 'kaiyill/CSC381_DevProj/someExampleData/NFLTeams2022.csv'
+file_path = 'someExampleData/NFLTeams2022.csv'
 csv_data = read_csv(file_path)
 
 # Print the organized data

@@ -4,7 +4,7 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 def read_csv(file_path):
-    # The same read_csv function as before
+    # Python read csv function
 
     @app.route('/', methods=['GET', 'POST'])
     def display_data():

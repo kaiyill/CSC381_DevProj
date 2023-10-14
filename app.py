@@ -10,24 +10,8 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')
 def index():
-    if request.method == 'POST':
-            # Check if a file is uploaded
-            if 'file' not in request.files:
-                return render_template('upload.html', msg='No file uploaded')
+    return render_template('upload.html')
 
-            file = request.files['file']
-
-            # Check if the file is empty
-            if file.filename == '':
-                return render_template('upload.html', msg='No file selected')
-
-            # Check if the file is a CSV file
-            if file and file.filename.rsplit('.', 1)[1].lower() == 'csv':
-                # Read the file contents
-                file.seek(0)
-                data = file.read()
-
-                # Process the file contents (e.g., save the file, parse the CSV data, etc.)
 
 @app.route('/upload', methods=['POST'])
 def upload():

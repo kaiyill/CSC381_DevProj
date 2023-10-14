@@ -1,28 +1,41 @@
-import csv
 from flask import Flask, render_template, request
+import pandas as pd
+import os
 
 app = Flask(__name__)
 
-def read_csv(file_path):
-    # Python read csv function
+# Set the folder to store uploaded CSV files
+UPLOAD_FOLDER = 'uploads'
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-    @app.route('/', methods=['GET', 'POST'])
-    def display_data():
-        data = None
+@app.route('/')
+def index():
+    return render_template('upload.html')
 
-    if request.method == 'POST':
-        uploaded_file = request.files['csv_file']
+@app.route('/upload', methods=['POST'])
+def upload():
+    # Check if the 'file' field is in the request
+    if 'file' not in request.files:
+        return "No file part"
 
-        if uploaded_file.filename != '':
-            # Save the uploaded file temporarily
-            file_path = 'temp.csv'
-            uploaded_file.save(file_path)
+    file = request.files['file']
 
-            # Read and organize the data
-            data = read_csv(file_path)
+    # Check if the file is not empty
+    if file.filename == '':
+        return "No selected file"
 
-    return render_template('data.html', data=data)
+    # Check if the file is allowed (e.g., has a .csv extension)
+    if file:
+        filename = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(filename)
+
+        # Read the uploaded CSV file using pandas
+        df = pd.read_csv(filename)
+
+        # Render a template to display the data
+        return render_template('display.html', data=df.to_html())
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 

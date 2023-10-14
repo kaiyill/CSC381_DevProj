@@ -5,7 +5,7 @@ import os
 app = Flask(__name__, template_folder= 'template')
 
 # Set the folder to store uploaded CSV files
-UPLOAD_FOLDER = 'upload'
+UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route('/')

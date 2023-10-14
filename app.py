@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 import pandas as pd
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder= 'template')
 
 # Set the folder to store uploaded CSV files
 UPLOAD_FOLDER = 'uploads'

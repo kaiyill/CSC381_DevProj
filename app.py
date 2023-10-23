@@ -53,12 +53,19 @@ def sort_csv_by_column(input_file, output_file, column_index):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        input_file = request.form['input_file']
-        output_file = request.form['output_file']
+        input_file = os.path.join(app.config['uploads'], request.files['input_file'].filename)
+        output_file = os.path.join(app.config['uploads'], request.form['output_file'])
         column_index = int(request.form['column_index'])
+        
+        request.files['input_file'].save(input_file)
         sort_csv_by_column(input_file, output_file, column_index)
         return redirect('/')
+    
     return render_template('index.html')
+
+@app.route('/uploads/<filename>')
+def download_file(filename):
+    return send_from_directory(app.config['uploads'], filename, as_attachment=True)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import os
+import csv
 
 app = Flask(__name__, template_folder= 'template')
 
@@ -36,8 +37,29 @@ def upload():
 
         # Render a template to display the data
         return render_template('display.html', data=df.to_html())
+    
+    # Function to sort a CSV file by a specific column in ascending order
+def sort_csv_by_column(input_file, output_file, column_index):
+    with open(input_file, 'r') as input_csvfile:
+        csvreader = csv.reader(input_csvfile)
+        data = list(csvreader)
+    
+    data.sort(key=lambda row: row[column_index])
+    
+    with open(output_file, 'w', newline='') as output_csvfile:
+        csvwriter = csv.writer(output_csvfile)
+        csvwriter.writerows(data)
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        input_file = request.form['input_file']
+        output_file = request.form['output_file']
+        column_index = int(request.form['column_index'])
+        sort_csv_by_column(input_file, output_file, column_index)
+        return redirect('/')
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
-
 

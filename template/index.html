@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV Sorter</title>
+</head>
+<body>
+    <h1>CSV Sorter</h1>
+    <form method="post" enctype="multipart/form-data">
+        <label for="input_file">Input CSV File:</label>
+        <input type="file" name="input_file" accept=".csv" required>
+        <br>
+        <label for="output_file">Output CSV File (e.g., output.csv):</label>
+        <input type="text" name="output_file" required>
+        <br>
+        <label for="column_index">Column Index (0-based):</label>
+        <input type="number" name="column_index" required>
+        <br>
+        <input type="radio" name="ascending" value="ascending" checked> Ascending
+        <input type="radio" name="ascending" value="descending"> Descending
+        <br>
+        <input type="submit" value="Sort">
+    </form>
+</body>
+</html>

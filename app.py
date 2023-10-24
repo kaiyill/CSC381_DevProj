@@ -24,7 +24,7 @@ def sort_csv(input_file, output_file, column_index, ascending=True):
         csvwriter.writerows(data)
 
 @app.route('/', methods=['GET', 'POST'])
-def upload():
+def index():
     if request.method == 'POST':
         input_file = os.path.join(app.config['UPLOAD_FOLDER'], request.files['input_file'].filename)
         output_file = os.path.join(app.config['UPLOAD_FOLDER'], request.form['output_file'])
@@ -35,7 +35,7 @@ def upload():
         sort_csv(input_file, output_file, column_index, ascending)
         return redirect('/')
     
-    return render_template('upload.html')
+    return render_template('index.html')
 
 @app.route('/uploads/<filename>')
 def download_file(filename):

@@ -19,23 +19,20 @@ def sort_csv(input_file, output_file, column_index, ascending=True):
     
     data.sort(key=lambda row: row[column_index], reverse=not ascending)
     
-    with open(output_file, 'w', newline='') as output_csvfile:
-        csvwriter = csv.writer(output_csvfile)
-        csvwriter.writerows(data)
+    return data
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    sorted_data = None
     if request.method == 'POST':
         input_file = os.path.join(app.config['UPLOAD_FOLDER'], request.files['input_file'].filename)
-        output_file = os.path.join(app.config['UPLOAD_FOLDER'], request.form['output_file'])
         column_index = int(request.form['column_index'])
         ascending = request.form['ascending'] == 'ascending'
         
         request.files['input_file'].save(input_file)
-        sort_csv(input_file, output_file, column_index, ascending)
-        return redirect('/')
+        sorted_data = sort_csv(input_file, column_index, ascending)
     
-    return render_template('index.html')
+    return render_template('index.html', sorted_data=sorted_data)
 
 @app.route('/uploads/<filename>')
 def download_file(filename):

@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>CSV Sorter</h1>
-    <form method="post" enctype="multipart/form-data">
+    <form action="/" method="post" enctype="multipart/form-data">
         <label for="input_file">Input CSV File:</label>
         <input type="file" name="input_file" accept=".csv" required>
         <br>
@@ -20,5 +20,25 @@
         <br>
         <input type="submit" value="Sort">
     </form>
+
+    <!-- Display the sorted data if available -->
+    {% if sorted_data %}
+        <h2>Sorted Data</h2>
+        <table>
+            <tr>
+                <!-- Assuming the first row contains column headers -->
+                {% for header in sorted_data[0] %}
+                    <th>{{ header }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in sorted_data[1:] %}
+                <tr>
+                    {% for cell in row %}
+                        <td>{{ cell }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif }
 </body>
 </html>

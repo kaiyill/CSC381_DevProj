@@ -4,6 +4,12 @@ import os
 
 app = Flask(__name__)
 
+app.template_folder = 'template'
+
+if __name__ == '__main__':
+    app.template_folder = 'template'  # Add this line
+    app.run(debug=True)
+
 # Define the folder for storing uploaded files
 UPLOAD_FOLDER = 'uploads'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER

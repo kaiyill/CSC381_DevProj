@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV Sorter</title>
+</head>
+<body>
+    <h1>CSV Sorter</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <label for="input_file">Input CSV File:</label>
+        <input type="file" name="input_file" accept=".csv">
+        <br>
+        <label for "output_file">Output CSV File (e.g., output.csv):</label>
+        <input type="text" name="output_file">
+        <br>
+        <label for="column_index">Column Index (0-based):</label>
+        <input type="number" name="column_index" required>
+        <br>
+        <input type="radio" name="ascending" value="ascending" checked> Ascending
+        <input type="radio" name="ascending" value="descending"> Descending
+        <br>
+        <input type="submit" value="Sort">
+    </form>
+
+    <!-- Display the sorted data if available -->
+    {% if sorted_data %}
+        <h2>Sorted Data</h2>
+        <table>
+            <tr>
+                <!-- Assuming the first row contains column headers -->
+                {% for header in sorted_data[0] %}
+                    <th>{{ header }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in sorted_data[1:] %}
+                <tr>
+                    {% for cell in row %}
+                        <td>{{ cell }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</body>
+</html>

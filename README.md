@@ -16,3 +16,11 @@ Current steps to running the program...
   5a- Upgrade flask pandas to newest version
 
 6- run program by typing "python app.py" in terminal and then clicking the url that it gives you
+
+FOR ALL TIMES PAST THE FIRST...
+
+1- Change directory to the correct directory where app.py is ("cd ~/CSC381_DevProj" in terminal for me)
+
+2- Open the virtual environment ("source venv/bin/activate" in the terminal)
+
+3- run program by typing "python app.py" in terminal and then clicking the url that it gives you

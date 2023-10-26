@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>CSV Sorter</title>
+    <title>CSV Data</title>
 </head>
 <body>
-    <h1>CSV Sorter</h1>
+    <h1>CSV Data</h1>
     <form action="/" method="post" enctype="multipart/form-data">
         <label for="input_file">Input CSV File:</label>
         <input type="file" name="input_file" accept=".csv">
         <br>
-        <label for "output_file">Output CSV File (e.g., output.csv):</label>
+        <label for="output_file">Output CSV File (e.g., output.csv):</label>
         <input type="text" name="output_file">
         <br>
         <label for="column_index">Column Index (0-based):</label>
@@ -18,10 +18,21 @@
         <input type="radio" name="ascending" value="ascending" checked> Ascending
         <input type="radio" name="ascending" value="descending"> Descending
         <br>
-        <input type="submit" value="Sort">
+        <!-- Standardization Method Dropdown -->
+        <label for="standardization_method">Standardization Method:</label>
+        <select name="standardization_method">
+            <option value="default">Default</option>
+            <option value="1-10">1-10</option>
+            <option value="0-1">0-1</option>
+            <option value="-1-1">-1-1</option>
+            <option value="z-score">Statistical Z-scores</option>
+        </select>
+        <br>
+        <input type="submit" name="submit_button" value="Sort">
+        <input type="submit" name="submit_button" value="Standardize"> 
     </form>
 
-    <!-- Display the sorted data if available -->
+    <!-- Display the sorted and standardized data if available -->
     {% if sorted_data %}
         <h2>Sorted Data</h2>
         <table>
@@ -40,5 +51,24 @@
             {% endfor %}
         </table>
     {% endif %}
+
+    {% if not standardized_data.empty %}
+    <h2>Standardized Data</h2>
+    <table>
+        <tr>
+            <!-- Assuming the first row contains column headers -->
+            {% for header in standardized_data.columns %}
+                <th>{{ header }}</th>
+            {% endfor %}
+        </tr>
+        {% for row in standardized_data.values %}
+            <tr>
+                {% for cell in row %}
+                    <td>{{ cell }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
 </body>
 </html>

@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, send_from_directory, session
 import csv
 import os
+import pandas as pd  
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with a secure secret key
+app.secret_key = 'your_secret_key' 
 
 # Define the folder for storing uploaded files
 UPLOAD_FOLDER = 'uploads'
@@ -34,14 +35,36 @@ def sort_csv(input_file, column_index, ascending=True, output_file=None):
     else:
         return data
 
+#Function to standarize data by a certain column index
+def standardize_csv(input_file, column_index, method, output_file=None):
+    df = pd.read_csv(input_file)
+    column_name = df.columns[column_index]
 
+    #For the different methods (0-10 was giving me trouble)
+    if method == '1-10':
+        df[column_name] = (df[column_name] - df[column_name].min()) / (df[column_name].max() - df[column_name].min()) * 9 + 1
+    elif method == '0-1':
+        df[column_name] = (df[column_name] - df[column_name].min()) / (df[column_name].max() - df[column_name].min())
+    elif method == '-1-1':
+        df[column_name] = (df[column_name] - df[column_name].mean()) / df[column_name].std()
+    elif method == 'z-score':
+        df[column_name] = (df[column_name] - df[column_name].mean()) / df[column_name].std()
 
+    # Round the values to the second decimal place
+    df[column_name] = df[column_name].round(2)
+
+    if output_file:
+        df.to_csv(output_file, index=False)
+        return output_file
+    else:
+        return df
+
+#Index
 @app.route('/', methods=['GET', 'POST'])
 def index():
     sorted_data = None
-    output_file = None
+    standardized_data = None  
 
-    # Check if the session contains the file path
     if 'input_file_path' in session:
         input_file = session['input_file_path']
     else:
@@ -53,19 +76,25 @@ def index():
         output_file_name = request.form['output_file']
 
         if not input_file:
-            # Upload the file if it's not in the session
             input_file = os.path.join(app.config['UPLOAD_FOLDER'], request.files['input_file'].filename)
             request.files['input_file'].save(input_file)
-            session['input_file_path'] = input_file  # Store the file path in the session
+            session['input_file_path'] = input_file
 
-        if output_file_name:  # If an output file is specified
-            output_file = os.path.join(app.config['UPLOAD_FOLDER'], output_file_name)
-            output_file = sort_csv(input_file, column_index, ascending, output_file)
-        else:  # If no output file is specified
-            sorted_data = sort_csv(input_file, column_index, ascending)
+        if request.form['submit_button'] == 'Sort':
+            if output_file_name:
+                output_file = os.path.join(app.config['UPLOAD_FOLDER'], output_file_name)
+                output_file = sort_csv(input_file, column_index, ascending, output_file)
+            else:
+                sorted_data = sort_csv(input_file, column_index, ascending)
+        elif request.form['submit_button'] == 'Standardize':
+            method = request.form['standardization_method']
+            if output_file_name:
+                output_file = os.path.join(app.config['UPLOAD_FOLDER'], output_file_name)
+                output_file = standardize_csv(input_file, column_index, method, output_file)
+            else:
+                standardized_data = standardize_csv(input_file, column_index, method)  # Store the standardized data
 
-    return render_template('index.html', sorted_data=sorted_data, output_file=output_file)
-
+    return render_template('index.html', sorted_data=sorted_data, standardized_data=standardized_data)  # Pass standardized_data to the template
 @app.route('/uploads/<filename>')
 def download_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)

@@ -1,1 +1,0 @@
-this is here to keep the uploads folder in place. I'm not sure how else to do this.

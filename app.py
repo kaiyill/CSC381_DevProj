@@ -98,6 +98,11 @@ def index():
 
 @app.route("/color")
 def color():
+    file = request.files['file']
+    if not file:
+        return jsonify({'error': 'No file uploaded'})
+    
+    df = pd.read_csv(file)
     return render_template('color.html')
     
 

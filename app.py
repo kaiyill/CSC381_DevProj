@@ -95,6 +95,12 @@ def index():
                 standardized_data = standardize_csv(input_file, column_index, method)  # Store the standardized data
 
     return render_template('index.html', sorted_data=sorted_data, standardized_data=standardized_data)  # Pass standardized_data to the template
+
+@app.route("/color")
+def color():
+    return render_template('color.html')
+    
+
 @app.route('/uploads/<filename>')
 def download_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)

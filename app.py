@@ -96,20 +96,9 @@ def index():
 
     return render_template('index.html', sorted_data=sorted_data, standardized_data=standardized_data)  # Pass standardized_data to the template
 
-@app.route("/color", methods=['POST'])
+@app.route("/color", methods=['GET', 'POST'])
 def color():
-    file = request.files['file']
-    if not file:
-        return jsonify({'error': 'No file uploaded'})
+   return render_template ('color.html')
     
-    df = pd.read_csv(file)
-    #return jsonify({'data': df.to_html(classes='table table-striped table-bordered')})
-    return render_template('color.html')
-    
-
-@app.route('/uploads/<filename>')
-def download_file(filename):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], filename, as_attachment=True)
-
 if __name__ == '__main__':
     app.run(debug=True)

@@ -31,9 +31,9 @@
         <input type="submit" name="submit_button" value="Sort">
         <input type="submit" name="submit_button" value="Standardize"> 
     </form>
-    <form action="../templates/color.html" method="get">
-        <button type="submit">Sort Data by Good and Bad</button>
-    </form>
+    <a href="{{ url_for('color') }}" class="btn btn-primary">View Color Legend</a>
+
+
 
     <!-- Display the sorted and standardized data if available -->
     {% if sorted_data %}

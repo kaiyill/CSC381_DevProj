@@ -5,6 +5,9 @@
 </head>
 <body>
     <h1>CSV Data</h1>
+    <form action="/color" method="get">
+        <button type="submit">Sort Data by Good and Bad/button>
+    </form>
     <form action="/" method="post" enctype="multipart/form-data">
         <label for="input_file">Input CSV File:</label>
         <input type="file" name="input_file" accept=".csv">
@@ -31,9 +34,7 @@
         <input type="submit" name="submit_button" value="Sort">
         <input type="submit" name="submit_button" value="Standardize"> 
     </form>
-    <form action="/color" method="get">
-        <button type="submit">Sort Data by Good and Bad/button>
-    </form>
+    
 
     <!-- Display the sorted and standardized data if available -->
     {% if sorted_data %}

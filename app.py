@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, send_from_directory, session
+from flask import Flask, render_template, request, redirect, send_from_directory, session, jsonify
 import csv
 import os
 import pandas as pd  
@@ -96,9 +96,14 @@ def index():
 
     return render_template('index.html', sorted_data=sorted_data, standardized_data=standardized_data)  # Pass standardized_data to the template
 
-@app.route("/color", methods=['GET', 'POST'])
+@app.route("/color", methods=['POST'])
 def color():
-    return render_template('color.html')
+    file = request.files['file']
+    if not file:
+        return jsonify({'error': 'No file uploaded'})
+    
+    df = pd.read_csv(file)
+    return jsonify({'data': df.to_html(classes='table table-striped table-bordered')})
     
 
 @app.route('/uploads/<filename>')

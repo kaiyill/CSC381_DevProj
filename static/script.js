@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         const formData = new FormData(uploadForm);
 
-        const response = await fetch('/color', {
+        const response = await fetch('/upload', {
             method: 'POST',
             body: formData,
         });
@@ -40,4 +40,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-

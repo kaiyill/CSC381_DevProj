@@ -99,6 +99,15 @@ def index():
 @app.route("/color", methods=['GET', 'POST'])
 def color():
    return render_template ('color.html')
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    file = request.files['file']
+    if not file:
+        return jsonify({'error': 'No file uploaded'})
+    
+    df = pd.read_csv(file)
+    return jsonify({'data': df.to_html(classes='table table-striped table-bordered')})
     
 if __name__ == '__main__':
     app.run(debug=True)

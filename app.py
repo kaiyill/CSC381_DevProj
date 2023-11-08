@@ -103,7 +103,8 @@ def color():
         return jsonify({'error': 'No file uploaded'})
     
     df = pd.read_csv(file)
-    return jsonify({'data': df.to_html(classes='table table-striped table-bordered')})
+    #return jsonify({'data': df.to_html(classes='table table-striped table-bordered')})
+    return render_template('color.html')
     
 
 @app.route('/uploads/<filename>')

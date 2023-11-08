@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         const formData = new FormData(uploadForm);
 
-        const response = await fetch('/upload', {
+        const response = await fetch('/color', {
             method: 'POST',
             body: formData,
         });

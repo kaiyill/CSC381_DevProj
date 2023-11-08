@@ -96,7 +96,7 @@ def index():
 
     return render_template('index.html', sorted_data=sorted_data, standardized_data=standardized_data)  # Pass standardized_data to the template
 
-@app.route("/color")
+@app.route("/color", methods=['GET', 'POST'])
 def color():
     return render_template('color.html')
     

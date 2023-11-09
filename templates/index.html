@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>CSV Data</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
     <h1>CSV Data</h1>
@@ -31,6 +32,10 @@
         <input type="submit" name="submit_button" value="Sort">
         <input type="submit" name="submit_button" value="Standardize"> 
     </form>
+    <br>
+    <a href="{{ url_for('color') }}" class="btn btn-primary">Compare Good and Bad Data</a>
+
+
 
     <!-- Display the sorted and standardized data if available -->
     {% if sorted_data %}

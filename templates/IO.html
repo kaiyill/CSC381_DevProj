@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CSV Data</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <h1>CSV Data</h1>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <label for="input_file">Input CSV File:</label>
+        <input type="file" name="file" multiple accept=".csv, application/vnd.ms-excel, 
+        application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="form-control-file">
+        <br>
+        <label for="output_file">Output CSV File (e.g., output.csv):</label>
+        <input type="text" name="output_file">
+        <br>
+        <label for="column_index">Column Index (0-based):</label>
+        <input type="number" name="column_index" required>
+        <br>
+        <input type="submit" name="submit_button" value="Submit">
+    </form>
+    <br>
+    <a href="{{ url_for('color') }}" class="btn btn-primary">Compare Good and Bad Data</a>
+</body>
+</html>

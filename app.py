@@ -100,6 +100,10 @@ def index():
 def color():
    return render_template ('color.html')
 
+@app.route("/IO", methods=['GET', 'POST'])
+def IO():
+   return render_template ('IO.html')
+
 @app.route('/upload', methods=['POST'])
 def upload():
     file = request.files['file']

@@ -3,6 +3,11 @@
 <head>
     <title>CSV Data</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .bold-column {
+          font-weight: bold;
+        }
+      </style>
 </head>
 <body>
     <h1>CSV Data</h1>
@@ -63,13 +68,13 @@
         <tr>
             <!-- Assuming the first row contains column headers -->
             {% for header in standardized_data.columns %}
-                <th>{{ header }}</th>
+                <th class="bold-column">{{ header }}</th>
             {% endfor %}
         </tr>
         {% for row in standardized_data.values %}
             <tr>
                 {% for cell in row %}
-                    <td>{{ cell }}</td>
+                    <td class="bold-column">{{ cell }}</td>
                 {% endfor %}
             </tr>
         {% endfor %}

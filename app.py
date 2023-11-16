@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, jsonify, render_template, request, redirect, session
 import csv
 import os
 import pandas as pd
@@ -100,6 +100,16 @@ def index():
 @app.route("/color", methods=['GET', 'POST'])
 def color():
     return render_template('color.html')
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    file = request.files['file']
+    if not file:
+        return jsonify({'error': 'No file uploaded'})
+    
+    df = pd.read_csv(file)
+    return jsonify({'data': df.to_html(classes='table table-striped table-bordered')})
+    
 
 def get_columns(input_file):
     df = pd.read_csv(input_file)

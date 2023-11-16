@@ -8,7 +8,10 @@
     <h1>CSV Data</h1>
     <form action="/" method="post" enctype="multipart/form-data">
         <label for="input_file">Input CSV File:</label>
-        <input type="file" name="input_file" accept=".csv">
+        <!--Manually put in acceptable files-->
+        <input type="file" name="file" multiple accept=".csv, application/vnd.ms-excel, 
+        application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="form-control-file">
+
         <br>
         <label for="output_file">Output CSV File (e.g., output.csv):</label>
         <input type="text" name="output_file">
@@ -34,7 +37,7 @@
     </form>
     <br>
     <a href="{{ url_for('color') }}" class="btn btn-primary">Compare Good and Bad Data</a>
-
+    <a href="{{ url_for('IO') }}" class="btn btn-primary">Inputs/Outputs</a>
 
 
     <!-- Display the sorted and standardized data if available -->

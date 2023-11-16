@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>IO</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <h1>CSV Input and Display</h1>
+    <form action="/io" method="post" enctype="multipart/form-data">
+        <label for="csv_file">Choose a CSV file:</label>
+        <input type="file" id="csv_file" name="csv_file" accept=".csv" required>
+        <br>
+
+        <button type="submit" name="step" value="select_columns">Display Choice Columns</button>
+        <br>
+        <a href="{{ url_for('index') }}" class="btn btn-primary">Home</a>
+        <a href="{{ url_for('color') }}" class="btn btn-primary">Compare Good and Bad Data</a>
+    </form>
+
+    {% if input_columns %}
+        <h2>Select Input and Output Columns</h2>
+        <form action="/display_io" method="post">
+            {% for column in columns %}
+                <label>
+                    <input type="checkbox" name="input_columns" value="{{ column }}" {% if column in input_columns %}checked{% endif %}> {{ column }}
+                </label>
+            {% endfor %}
+            <br>
+
+            <button type="submit">Display Inputs and Outputs</button>
+        </form>
+    {% endif %}
+
+    {% if csv_data %}
+        <h2>CSV Data</h2>
+        {{ csv_data|safe }}
+        
+        {% if selected_row_html and most_similar_row_comparison_html and most_similar_row_numerics_html and most_similar_row_inputs_html and most_similar_row_outputs_html %}
+            <h2>Row Comparison</h2>
+            <h3>Selected Row</h3>
+            {{ selected_row_html|safe }}
+
+            <h3>Most Similar Row (All Comparison Columns)</h3>
+            {{ most_similar_row_comparison_html|safe }}
+
+            <h3>Most Similar Row (All Numerics)</h3>
+            {{ most_similar_row_numerics_html|safe }}
+
+            <h3>Most Similar Row (All Input Columns)</h3>
+            {{ most_similar_row_inputs_html|safe }}
+
+            <h3>Most Similar Row (All Output Columns)</h3>
+            {{ most_similar_row_outputs_html|safe }}
+        {% endif %}
+    {% endif %}
+</body>
+</html>
